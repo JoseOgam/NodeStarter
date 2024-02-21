@@ -24,12 +24,15 @@ const RegisterSchema = new Schema({
   },
 });
 
-RegisterSchema.pre("save", async (next) => {
-  const user = user;
+RegisterSchema.pre("save", async function (next) {
+  const user = this;
 
   if (!user.isModified("password")) return next();
   try {
     const salt = await bcrypt.genSalt(10); //generate salt with complexity of 10 chae
+    const hashedPassword = await bcrypt.hash(user.password, salt);
+    user.password = hashedPassword;
+    next();
   } catch (error) {
     return next(error);
   }
