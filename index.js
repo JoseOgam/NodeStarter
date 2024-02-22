@@ -10,6 +10,9 @@ app.use(cors());
 app.use(bodyParse.urlencoded({ extended: false }));
 app.use(bodyParse.json());
 app.use(router);
+app.get("/", (req, res) => {
+  res.json({ message: "Hey! this is your server response" });
+});
 
 const port = process.env.PORT || 5000;
 
